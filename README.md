@@ -40,6 +40,48 @@
 - Gán ổ đĩa được bind ở path host vào container khi tạo container: `docker volume create --opt device=path_in_host --opt type=none --opt o=bind  volumename` và `docker run -it -v mydisk:/home/sites name_container`
 - Xoá các ổ đĩa không được sử dụng bởi containers: `docker volume prune`
 
+## 2. Docker:
+### 2.1. Overview:
+- Docker là nền tảng phát triển, đóng gói vận chuyển và vận hành ứng dụng.
+- Docker cho phép tách rời cấu trúc ứng dụng để có thể dễ dàng vận chuyển
+- Tận dụng được lợi thế docker cho phép việc vận chuyển, kiểm tra, phát triển ứng dụng một cách nhanh chóng. Rút ngắn thời gian giữa việc phát triển và đưa lên chạy thực tế.
+### 2.2. Docker platform:
+- Docker cung cấp khả năng chạy package được gọi là container.
+- Có khả năng chạy nhiều containers trên một host.
+- Container có đặc điểm là nhẹ, chứa tất cả các dependency để có thể chạy được ứng dụng.
+- Các containers có thể được share dễ dàng.
+### 2.3. Khả năng của docker:
+- Vận chuyển nhanh các ứng dụng.
+- Khả năng scaling, chạy được trên nhiều platforms.
+- Chạy được nhiều workloads trên cùng một host.
+### 2.4. Docker architecture:
+- Docker sử dụng kiến trúc client-server. Docker client giao tiếp với Docker daemon để thực hiện build, run, distribute docker container. Docker client và daemon có thể cùng trên một host hoặc có thể remote Docker client để điều khiển docker daemon. Docker client và daemon giao tiếp với nhau sử dụng REST-API, qua UNIX socket hoặc network interface. Một biển thể khác của docker client đó là docker compose giúp ứng dụng chạy trên một tập containers.
+- Docker daemon: thực hiện lắng nghe yêu cầu docker API và quản lý các docker objects như images, containers, networks và volumes. Các docker daemon có thể giao tiếp với nhau để quản lý docker services.
+- Docker client: là cách giao tiếp chính để người dùng tương tác với Docker. Khi thực hiện các command sử dụng prefix `docker` là cách giao tiếp sử dụng docker API tới daemon.
+- Docker desktop: là GUI giúp build và chia sẻ ứng dụng và microservices. Docker desktop đã bao gồm docker daemon, docker client, docker compose,...
+- Docker registries: dùng để lưu trữ docker images. Là một docker hub mà tất cả mọi người có thể tìm các images. Khi sử dụng `docker pull` hay `docker run` command, docker sẽ pull images cần thiết về. Khi sử dụng `docker push` command, docker sẽ push image tới configured registry.
+- Docker objects: images, containers, networks, volumes, plugins,... được coi là các docker object.
+  * Images: là read-only template với các instruction để tạo Docker container. Bình thường thì một images sẽ dựa trên một image khác và có thêm sửa đổi. Ta có thể tự tạo image của riêng mình hoặc sử dụng chúng trên public registry. Để tạo một images, ta sử dụng docker file để định nghĩa các bước cần thực hiện.
+  * Containers: là một chương trình chạy của image, ta có thể create, start, stop, move, delete container sử dụng Docker API hoặc CLI. Ta có thể mount volume tới container hoặc network. Mặc định, container sẽ độc lập với các container khác, ta có thể config các tùy chỉnh.
+### 2.5. Docker concept:
+- Container:
+  * Một ứng dụng thường được chạy dựa trên nhiều components
+  * Để quản lý version các component cũng như các thiết lập, khái niệm container ra đời
+  * Mỗi component tương ứng với một container chạy độc lập
+  * Các container chạy độc lập mà không có phụ thuộc vào host.
+  * Container có tác động rất nhỏ tới các container và host machine.
+  * Việc xóa một container không làm ảnh hưởng tới các container khác.
+  * Các containers có thể chạy bất kì platform nào từ local machine, remote cloud,....
+- Images:
+  * Nhu cầu chia sẻ môi trường dev sinh ra image.
+  * Một container image chứa tất cả các file, thư viện, binaries, các dependency.
+  * Các images không thể thay đổi một khi đã tạo.
+  * Container image là tập hợp các layer. Mỗi layer đại diện cho một tập file system mà add, remove hoặc thay đổi file.
+- Registry:
+  * Nhu cầu lưu trữ các images, chia sẻ các images tới các images khác.
+  * Image registry là một nơi tập trung lưu trữ và chia sẻ container image.
+  * Cần phân biệt rõ registry và repository: registry là nơi tập trung lưu trữ và quản lý container images, trong khi repository là tập hợp các container images có liên quan tới nhau (thường là các version khác nhau).
+
 ## 3. Docker engine:
 ### 3.1. Storage:
 - Mặc định, các file được sinh ra trong container sẽ được lưu ở vùng ghi được, làm xảy ra những vấn đề sau:
